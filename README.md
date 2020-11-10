@@ -24,9 +24,9 @@ $ pip -r requirements.txt
 depends on your OS
 
 ### configuration
-$ vim botski/config.py file
+$ vim botski/config.py 
 
-### run control panel (simplest way)
+### run control panel (simple way)
 $ screen -D sh backend_run.sh
 
 ### run console part
