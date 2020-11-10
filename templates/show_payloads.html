@@ -1,0 +1,100 @@
+
+{% extends "base.html" %}
+{% block title %} add payload {% endblock %}
+{% block head %}
+{{  super()  }}
+<style type="text/css">
+  .important { color: #336699; }
+  .form-group { margin-top: 50px }
+</style>
+{% endblock %}
+{% block container %}
+
+  <div class="row mb-3">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+      <div class="alert alert-success" role="alert">
+        <p>Remember that only active payloads (switched to "on") will be processed by the bot</p>
+        <hr>
+      </div>
+    </div>
+    <div class="col-md-2">
+      <div class="text-right">
+
+      <a href="{{ url_for('add_payload_view') }}">
+        <button type="submit" class="btn btn-secondary">add payload</button>
+      </a>
+    </div>
+    </div>
+  </div>
+
+  <table class="table table-bordered">
+
+  {% if payloads %}
+      <thead>
+        <tr>
+          <th scope="col">on/off</th>
+          <th scope="col">sent</th>
+          <th scope="col">bot's search phrases</th>
+          <th scope="col">twitter comments</th>
+          <th scope="col">comments's pictures</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+  {% else %}
+    <div class="row mb-3">
+      <div class="col-md-3"></div>
+      <div class="col-md-6">
+        <div class="alert alert-danger" role="alert">
+          <h4 class="alert-heading">Hm.</h4>
+          <p>There is no payloads in database. You should <a href="{{ url_for('add_payload_view') }}">add</a> some.</p>
+          <hr>
+        </div>
+      </div>
+      <div class="col-md-3"></div>
+    </div>
+  {% endif %}
+
+ <tbody>
+
+    {% for payload in payloads %}
+    <tr onmouseover="payload.created" {% if payload.id and payload.active == 1 %} class="table-success" {% endif %}>
+
+      <th scope="row">
+      <select onchange="document.location.href='/change_status/{{ payload.id }}/'+this.value">
+        <option value="0" {% if payload.active == 0 %}selected{% endif %}>off</option>
+        <option value="1" {% if payload.active == 1 %}selected{% endif %}>on</option>
+      </select></th>
+
+      <td>{{ payload.how_many_times_sent }}</td>
+
+      <td>{{ payload.twitter_query }} </td>
+
+      <td><!-- 280 characters --> {{ payload.twitter_comment }}</td>
+
+      <td>
+
+        {% set payload_created = payload.created ~ "" %}
+        <img src="{{ payload.uploaded_image }}" class="rounded mx-auto d-block img-thumbnail" width="200px">
+        <div class="text-center">{% set payload_l = payload_created.split('.') %}{{ payload_l[0] }}</div>
+      </td>
+
+      <td>
+      {% if payload.id and payload.active == 0 %}
+      <div class="d-flex justify-content-center">
+        <div class="align-self-center">
+          <a href="/del_payload/{{ payload.id }}"><img width="20px" src="/static/img/close_btn.png"></a>
+        {% endif %}
+      </div>
+    </div>
+
+    </td>
+    </tr>
+
+    {% endfor %}
+
+  </tbody>
+
+</table>
+
+{% endblock %}

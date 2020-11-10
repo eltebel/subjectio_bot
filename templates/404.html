@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %} log in {% endblock %}
+{% block head %}
+{{ super() }}
+<style type="text/css">
+  .important { color: #336699; }
+  .form-group { margin-top: 50px }
+</style>
+{% endblock %}
+{% block container %}
+
+<div class="row mb-3">
+  <div class="col-md-3"></div>
+  <div class="col-md-6">
+    <div class="alert alert-danger" role="alert">
+      <h4 class="alert-heading">404</h4>
+      <p>{{ e }}</p>
+      <hr>
+  </div>
+
+</div>
+<div class="col-md-3"></div>
+</div>
+
+{% endblock %}

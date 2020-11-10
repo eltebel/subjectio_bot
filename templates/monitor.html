@@ -1,0 +1,41 @@
+
+{% extends "base.html" %}
+{% block title %} add payload {% endblock %}
+{% block head %}
+{{ super() }}
+<style type="text/css">
+  .important { color: #336699; }
+  .form-group { margin-top: 50px }
+</style>
+{% endblock %}
+{% block container %}
+
+  <!-- <a href="/add_payload">ADD NEW PAYLOAD</a> -->
+    <div class="row mb-3">
+      <div class="col-md-3"></div>
+      <div class="col-md-6">
+        <div class="alert alert-dark" role="alert">
+          <h4 class="alert-heading">Monitor</h4>
+            <p>Here you can read last 1000 lines of bot's activity</p>
+          <hr>
+
+        </div>
+      </div>
+      <div class="col-md-3"></div>
+    </div>
+ <div>
+
+
+  <div class="container" style="max-width: 950px;">
+
+    <b><pre>{{ os_uname }}</pre></b>
+
+    <div class="text-left">
+            <pre>
+              {{ monitor }}
+            </pre>
+          </div>
+    </div>
+
+  </div>
+{% endblock %}

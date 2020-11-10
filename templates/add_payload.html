@@ -1,0 +1,143 @@
+
+{% extends "base.html" %}
+{% block title %} add payload {% endblock %}
+{% block head %}
+{{ super() }}
+<style type="text/css">
+  .important { color: #336699; }
+  .form-group { margin-top: 50px }
+</style>
+{% endblock %}
+{% block container %}
+
+
+
+<div class="row mb-3">
+
+  <div class="col-md-3"></div>
+
+  <div class="col-md-6">
+    <div class="alert alert-success" role="alert">
+      <h4 class="alert-heading">Yes.</h4>
+      <p>Here you can feed the bot. He's hungry constantly!</p>
+      <hr>
+
+    </div>
+    <form method="post" action="{{ url_for('add_payload_post') }}" enctype="multipart/form-data" id="form_add_payload">
+
+      <div class="form-group">
+        <label>Twitter query:</label>
+        <input required
+          class="form-control"
+          type="text"
+          name="twitter_query"
+          maxlength=500
+          placeholder="..."
+          value="{% if form %}{{ form.twitter_query.data }}{% endif %}"
+        />
+        <p>
+          {% if form %}
+          {% for message in form.twitter_query.errors %}
+          <div class="alert alert-danger" role="alert">{{ message }}</div>
+          {% endfor %}
+          {% endif %}
+        </p>
+      </div>
+
+      <div class="form-group">
+        <label>Image:</label>
+
+        <input required
+          class="form-control"
+          type="file"
+          name="uploaded_image"
+          value="{% if form %}{{ form.uploaded_image.data }}{% endif %}"
+        />
+
+        <p>
+          {% if form %}
+          {% for message in form.uploaded_image.errors %}
+          <div class="alert alert-danger" role="alert">{{ message }}</div>
+          {% endfor %}
+          {% endif %}
+        </p>
+      </div>
+
+      <div class="form-group">
+        <label>Comment on Twitter:</label>
+
+        <textarea rows="4"
+          class="form-control"
+          type="text"
+          name="twitter_comment"
+          placeholder="..."
+          maxlength="280"
+          >{% if form %}{{+ form.twitter_comment.data }}{% endif %}</textarea>
+
+
+        <p>
+          {% if form %}
+          {% for message in form.twitter_comment.errors %}
+          <div class="alert alert-danger" role="alert">{{ message }}</div>
+          {% endfor %}
+          {% endif %}
+        </p>
+      </div>
+      <div class="text-left">
+        <p style="display: none;" class="alert alert-info" id="count_char"></p>
+      </div>
+
+      <div class="text-right">
+        <button type="submit" class="btn btn-secondary">Submit</button>
+      </div>
+    </form>
+
+      <script>
+          console.log("counting")
+          var textarea_ref = document.querySelector("textarea");
+          textarea_ref.addEventListener("input", function(){
+
+              const count_regexp_match = (str) => {
+                const regexp_url = /[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g
+                return ((str || '').match(regexp_url) || []).length
+              }
+
+              var maxlength = this.getAttribute("maxlength");
+              var content = this.value;
+              var currentLength = this.value.length;
+              var count_char = document.querySelector("#count_char");
+              var howManyUrls = count_regexp_match(content)
+              var howManyChars = howManyUrls * 18; // twitter treat url as 18 characters in tweet
+              var buttonSend = document.querySelector("button")
+
+              console.log("data: "+content);
+              console.log("match: "+count_regexp_match(content));
+
+              leftChar = (maxlength - currentLength - howManyChars);
+              console.log("left characters: "+leftChar);
+
+              if (leftChar > -1){
+                buttonSend.removeAttribute("disabled", "disabled");
+              } else {
+                buttonSend.setAttribute("disabled", "disabled");
+              }
+
+              count_char.innerHTML = leftChar + " characters left";
+              count_char.style.display = 'block';
+
+              if( currentLength >= maxlength ){
+                  console.log("You have reached the maximum number of characters.");
+              }else{
+                  console.log(maxlength - currentLength + " chars left");
+              }
+          });
+          </script>
+
+    {% endblock %}
+
+  </div>
+  <div class="col-md-3"></div>
+
+</div>
+
+

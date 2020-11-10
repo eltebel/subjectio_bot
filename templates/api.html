@@ -1,0 +1,57 @@
+
+{% extends "base.html" %}
+{% block title %} add payload {% endblock %}
+{% block head %}
+{{ super() }}
+<style type="text/css">
+  .important { color: #336699; }
+  .form-group { margin-top: 50px }
+</style>
+{% endblock %}
+{% block container %}
+
+  <!-- <a href="/add_payload">ADD NEW PAYLOAD</a> -->
+    <div class="row mb-3">
+      <div class="col-md-3"></div>
+      <div class="col-md-6">
+        <div class="alert alert-dark" role="alert">
+          <h4 class="alert-heading">API</h4>
+
+    <div class="text-center">
+      <span class="text-danger">Block any use of Twitter's API:</span>
+      <select onchange="document.location.href='/block_api/'+this.value">
+        <option value="0" {% if api_blocked == 0 %}selected{% endif %}>off</option>
+        <option value="1" {% if api_blocked == 1 %}selected{% endif %}>on</option>
+      </select>
+
+      {% if api_blocked == 1 %}
+       <p>Currently bot cannot post any tweet.</p>
+      {% endif %}
+
+    </div>
+          <hr>
+
+        </div>
+      </div>
+      <div class="col-md-3"></div>
+    </div>
+ <div>
+  <div class="container">
+  <!--   <b><pre>{{ os_uname }}</pre></b> -->
+
+    <div class="text-center">
+        <h5>Current API limits for bot's account:</h5>
+        <hr>
+    {%- for iter in limits %}
+      <b>API method: </b>{{ iter }}<br>
+       <b>limit</b>: {{ limits[iter]["limit"] }}, <b>remaining</b>:{{ limits[iter]["remaining"] }}, <b>reset at</b>: {{ limits[iter]["reset"] }}
+
+       <hr>
+    {% else %}
+        <b>No limits! :)</b>
+    {%- endfor -%}
+
+    </div>
+    </div>
+  </div>
+{% endblock %}
