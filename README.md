@@ -18,16 +18,16 @@ The application requires Unix type operating system to run. Recommended OS is Li
 ## Setup
 
 ### install required python packages
-pip -r requirements.txt
+$ pip -r requirements.txt
 
 ### install mongodb, uwsgi webserver
 depends on your OS
 
 ### configuration
-see botski/config.py file
+$ vim botski/config.py file
 
 ### run control panel (simplest way)
-screen -D sh backend_run.sh
+$ screen -D sh backend_run.sh
 
 ### run console part
-sh daemon_run.sh
+$ sh daemon_run.sh
